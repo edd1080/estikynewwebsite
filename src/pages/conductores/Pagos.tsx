@@ -1,3 +1,4 @@
+import { DriverPay } from '../../components/phones'
 import Reveal from '../../components/Reveal'
 import { Button, Card, Check, CtaBand, PageHero, Section } from '../../components/ui'
 import { useSeo } from '../../lib/seo'
@@ -6,7 +7,9 @@ export default function Pagos() {
   useSeo('Pagos para conductores', 'Cada cuánto y por qué medio se paga a los conductores de Estiky, y dónde consultar el detalle dentro de la app.', '/conductores/pagos')
   return (
     <>
-      <PageHero eyebrow="Pagos" title={<>Cada quincena, <span className="hl">por transferencia</span>.</>} lead="Sabes cuándo y cómo se paga. El detalle de tu cuenta lo ves dentro de la app una vez que está verificada." actions={<Button to="/conductores/registro" icon="arrow" size="lg">Crear cuenta</Button>} />
+      <PageHero eyebrow="Pagos" title={<>Cada quincena, <span className="hl">por transferencia</span>.</>} lead="Sabes cuándo y cómo se paga. El detalle de tu cuenta lo ves dentro de la app una vez que está verificada." actions={<Button to="/conductores/registro" icon="arrow" size="lg">Crear cuenta</Button>}>
+        <DriverPay />
+      </PageHero>
       <Section eyebrow="Lo esencial" title="Tres cosas claras.">
         <div className="grid3">
           <Reveal><Card icon="calendar" title="Cadencia quincenal"><p>Los pagos se hacen cada quincena.</p></Card></Reveal>

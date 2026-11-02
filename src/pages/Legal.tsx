@@ -8,11 +8,11 @@ const DOCS = {
     title: 'Términos de uso',
     sections: [
       ['Aceptación', 'Al usar el sitio y los servicios de Estiky aceptas estos términos. Si no estás de acuerdo, no utilices el servicio.'],
-      ['El servicio', 'Estiky conecta anunciantes con conductores que instalan wraps publicitarios en sus vehículos. Durante el piloto 2026, aprobaciones, instalación y pagos se gestionan de forma asistida por el equipo.'],
+      ['El servicio', 'Estiky conecta anunciantes con conductores que instalan wraps publicitarios en sus vehículos. Aprobaciones, instalación y pagos se gestionan de forma asistida por el equipo.'],
       ['Cuentas', 'Eres responsable de la información que registras y de mantener tus credenciales seguras. Las cuentas tienen un rol: anunciante o conductor.'],
       ['Campañas y contenidos', 'Los anunciantes son responsables de la titularidad y legalidad del arte que entregan. Estiky puede rechazar o pausar contenidos que no cumplan los lineamientos.'],
       ['Medición', 'Las métricas se basan en registros GPS de viajes iniciados por conductores. Las impresiones son estimaciones y no representan personas únicas, recordación ni conversiones.'],
-      ['Limitación de responsabilidad', 'El servicio se ofrece en etapa de piloto. Estiky no garantiza resultados comerciales específicos.'],
+      ['Limitación de responsabilidad', 'Estiky no garantiza resultados comerciales específicos.'],
       ['Cambios', 'Podemos actualizar estos términos. Publicaremos la versión vigente en esta página.'],
     ],
   },

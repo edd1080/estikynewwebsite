@@ -111,13 +111,13 @@ type Design = 'estiky' | 'cafe' | 'fit' | 'fruta'
 interface Wrap { design: Design; body: string; accent: string; roof: string; alt: string }
 const WRAPS: Wrap[] = [
   { design: 'estiky', body: '#5B3DF5', accent: '#C8F31D', roof: '#7C63FF', alt: '#FFFFFF' },
-  { design: 'cafe', body: '#F4E3C3', accent: '#E4572E', roof: '#FFF1D6', alt: '#6B3A1E' },
-  { design: 'fit', body: '#15122B', accent: '#C8F31D', roof: '#3A3560', alt: '#FF5C7A' },
-  { design: 'fruta', body: '#FF8A3D', accent: '#FFFFFF', roof: '#FFB27C', alt: '#2E9E5B' },
+  { design: 'cafe', body: '#F4F3F7', accent: '#4A2614', roof: '#FFFFFF', alt: '#FFC93C' },
+  { design: 'fit', body: '#F4F3F7', accent: '#1E2A5A', roof: '#FFFFFF', alt: '#1E2A5A' },
+  { design: 'fruta', body: '#F4F3F7', accent: '#2E86F5', roof: '#FFFFFF', alt: '#FF8A3D' },
   { design: 'estiky', body: '#5B3DF5', accent: '#C8F31D', roof: '#7C63FF', alt: '#FFFFFF' },
-  { design: 'fit', body: '#15122B', accent: '#FF5C7A', roof: '#3A3560', alt: '#C8F31D' },
-  { design: 'cafe', body: '#F4E3C3', accent: '#E4572E', roof: '#FFF1D6', alt: '#6B3A1E' },
-  { design: 'fruta', body: '#FF8A3D', accent: '#FFFFFF', roof: '#FFB27C', alt: '#2E9E5B' },
+  { design: 'fruta', body: '#F4F3F7', accent: '#2E86F5', roof: '#FFFFFF', alt: '#FF8A3D' },
+  { design: 'cafe', body: '#F4F3F7', accent: '#4A2614', roof: '#FFFFFF', alt: '#FFC93C' },
+  { design: 'fit', body: '#F4F3F7', accent: '#1E2A5A', roof: '#FFFFFF', alt: '#1E2A5A' },
 ]
 
 type Q = (u: number, v: number) => Pt
@@ -129,28 +129,32 @@ function circ(q: Q, cu: number, cv: number, ru: number, rv: number): Pt[] {
 }
 function drawWrapArt(ctx: CanvasRenderingContext2D, q: Q, w: Wrap) {
   if (w.design === 'estiky') {
-    poly(ctx, [q(0.06, 0), q(0.3, 0), q(0.52, 1), q(0.28, 1)], w.accent)
-    poly(ctx, [q(0.56, 0.06), q(0.76, 0.06), q(0.76, 0.94), q(0.56, 0.94)], '#15122B') // teléfono
-    poly(ctx, [q(0.585, 0.16), q(0.735, 0.16), q(0.735, 0.84), q(0.585, 0.84)], '#FFFFFF')
-    poly(ctx, [q(0.6, 0.22), q(0.72, 0.22), q(0.72, 0.4), q(0.6, 0.4)], '#5B3DF5')
-    poly(ctx, [q(0.6, 0.55), q(0.72, 0.55), q(0.72, 0.7), q(0.6, 0.7)], '#C8F31D')
-    poly(ctx, [q(0.82, 0.15), q(0.95, 0.15), q(0.95, 0.85), q(0.82, 0.85)], '#FFFFFF') // QR
-    poly(ctx, [q(0.84, 0.3), q(0.88, 0.3), q(0.88, 0.7), q(0.84, 0.7)], '#15122B')
+    // full wrap violeta: franja lima abajo, titular blanco y teléfono
+    poly(ctx, [q(0, 0), q(1, 0), q(1, 0.3), q(0, 0.42)], w.accent)
+    poly(ctx, [q(0.3, 0.55), q(0.62, 0.55), q(0.62, 0.72), q(0.3, 0.72)], '#FFFFFF')
+    poly(ctx, [q(0.3, 0.4), q(0.56, 0.4), q(0.56, 0.5), q(0.3, 0.5)], w.accent)
+    poly(ctx, [q(0.68, 0.1), q(0.84, 0.1), q(0.84, 0.95), q(0.68, 0.95)], '#15122B')
+    poly(ctx, [q(0.7, 0.18), q(0.82, 0.18), q(0.82, 0.88), q(0.7, 0.88)], '#FFFFFF')
+    poly(ctx, [q(0.72, 0.45), q(0.8, 0.45), q(0.8, 0.7), q(0.72, 0.7)], '#5B3DF5')
   } else if (w.design === 'cafe') {
-    poly(ctx, circ(q, 0.7, 0.55, 0.2, 0.7), w.accent)
-    poly(ctx, circ(q, 0.7, 0.55, 0.12, 0.42), '#F28C28')
-    poly(ctx, [q(0.08, 0.3), q(0.4, 0.3), q(0.4, 0.5), q(0.08, 0.5)], w.alt)
-    poly(ctx, [q(0.08, 0.62), q(0.34, 0.62), q(0.34, 0.8), q(0.08, 0.8)], w.alt)
+    // panel café en las puertas
+    poly(ctx, [q(0.26, 0.12), q(0.82, 0.12), q(0.82, 0.92), q(0.26, 0.92)], w.accent)
+    poly(ctx, [q(0.32, 0.55), q(0.58, 0.55), q(0.58, 0.72), q(0.32, 0.72)], '#FFFFFF')
+    poly(ctx, [q(0.32, 0.3), q(0.52, 0.3), q(0.52, 0.44), q(0.32, 0.44)], w.alt)
+    poly(ctx, [q(0.65, 0.25), q(0.76, 0.25), q(0.75, 0.75), q(0.66, 0.75)], '#FFFFFF')
   } else if (w.design === 'fit') {
-    poly(ctx, [q(0.1, 0), q(0.22, 0), q(0.42, 1), q(0.3, 1)], w.accent)
-    poly(ctx, [q(0.26, 0), q(0.34, 0), q(0.54, 1), q(0.46, 1)], w.alt)
-    poly(ctx, [q(0.62, 0.25), q(0.95, 0.25), q(0.95, 0.5), q(0.62, 0.5)], '#FFFFFF')
-    poly(ctx, circ(q, 0.82, 0.78, 0.07, 0.2), w.accent)
+    // calcomanía azul marino sobre auto blanco
+    poly(ctx, [q(0.26, 0.5), q(0.62, 0.5), q(0.62, 0.78), q(0.26, 0.78)], w.accent)
+    poly(ctx, [q(0.26, 0.3), q(0.5, 0.3), q(0.5, 0.4), q(0.26, 0.4)], w.accent)
+    poly(ctx, [q(0.68, 0.2), q(0.72, 0.2), q(0.78, 0.85), q(0.74, 0.85)], w.accent)
+    poly(ctx, [q(0.72, 0.5), q(0.88, 0.62), q(0.88, 0.7), q(0.72, 0.58)], w.accent)
   } else {
-    poly(ctx, circ(q, 0.28, 0.5, 0.16, 0.8), '#FFFFFF')
-    poly(ctx, circ(q, 0.28, 0.5, 0.12, 0.6), '#FFD27A')
-    poly(ctx, [q(0.52, 0.28), q(0.94, 0.28), q(0.94, 0.55), q(0.52, 0.55)], '#FFFFFF')
-    poly(ctx, [q(0.52, 0.68), q(0.8, 0.68), q(0.8, 0.88), q(0.52, 0.88)], w.alt)
+    // wrap parcial de cielo con nubes y lata naranja
+    poly(ctx, [q(0, 0), q(0.7, 0), q(0.62, 1), q(0, 1)], w.accent)
+    poly(ctx, circ(q, 0.18, 0.55, 0.09, 0.28), '#FFFFFF')
+    poly(ctx, circ(q, 0.48, 0.3, 0.07, 0.2), '#FFFFFF')
+    poly(ctx, [q(0.3, 0.15), q(0.4, 0.15), q(0.4, 0.92), q(0.3, 0.92)], '#FFFFFF')
+    poly(ctx, circ(q, 0.35, 0.55, 0.04, 0.18), w.alt)
   }
 }
 

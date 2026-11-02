@@ -1,3 +1,5 @@
+import { Billboard } from '../../components/illus'
+import WrapCar from '../../components/WrapCar'
 import Reveal from '../../components/Reveal'
 import { Button, Card, CtaBand, PageHero, Section } from '../../components/ui'
 import { useSeo } from '../../lib/seo'
@@ -9,7 +11,7 @@ const ROWS = [
   ['Costo', 'Por ubicación y periodo contratado.', 'Se cotiza por campaña: zonas, duración y formato.'],
   ['Flexibilidad', 'Depende de los plazos del contrato del espacio.', 'Activas por campaña y puedes ajustar con datos en tiempo real.'],
   ['Reportes', 'Varían según el proveedor.', 'Panel en tiempo real, disponible en cualquier momento.'],
-  ['Limitaciones', 'Un solo punto; formato fijo.', 'No mide personas únicas ni conversiones; cobertura según vehículos del piloto.'],
+  ['Limitaciones', 'Un solo punto; formato fijo.', 'No mide personas únicas ni conversiones; cobertura según vehículos disponibles por zona.'],
 ]
 
 export default function Comparativa() {
@@ -20,8 +22,9 @@ export default function Comparativa() {
         eyebrow="Comparativa"
         title={<>Estiky frente a la <span className="hl">publicidad exterior</span> tradicional.</>}
         lead="Cada medio tiene su lugar. Esta comparativa te ayuda a decidir cuándo conviene una valla, cuándo Estiky y cuándo ambos."
-        actions={<Button to="/registro" icon="arrow" size="lg">Crear cuenta de anunciante</Button>}
-      />
+        actions={<Button to="/registro" icon="arrow" size="lg">Crear cuenta de anunciante</Button>}>
+        <Billboard withCar />
+      </PageHero>
       <Section eyebrow="Criterio por criterio" title="Lo que cambia entre una valla y una campaña en movimiento.">
         <Reveal className="table-wrap">
           <table className="table table--compare">
@@ -38,6 +41,7 @@ export default function Comparativa() {
         </div>
       </Section>
       <Section eyebrow="Mejor juntas" title="Estiky funciona bien cuando…" lead="Quieres cubrir varias zonas, activar por temporada, medir con GPS o complementar la valla que ya tienes con presencia en movimiento.">
+        <div className="center-gfx"><WrapCar design="fit" /></div>
         <div className="center-cta"><Button to="/casos-de-uso" variant="ghost" icon="arrow">Ver casos de uso</Button></div>
       </Section>
       <CtaBand title="¿Estiky o valla? Platiquémoslo." text="Te ayudamos a evaluar tu caso, aunque la respuesta sea combinar medios." primary={{ label: 'Crear cuenta de anunciante', to: '/registro' }} secondary={{ label: 'Hablar con ventas', to: '/demo' }} />

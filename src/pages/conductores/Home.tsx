@@ -17,7 +17,7 @@ export default function DriverHome() {
         <div className="hero__bg" aria-hidden="true" />
         <Container className="hero__inner">
           <div className="hero__copy">
-            <span className="sticker sticker--tilt"><span className="live-dot" aria-hidden="true" /> Piloto 2026 · Ciudad de Guatemala</span>
+            <span className="sticker sticker--tilt"><span className="live-dot" aria-hidden="true" /> Ciudad de Guatemala</span>
             <h1 className="h1">Tu ruta de siempre, con un <span className="hl">ingreso extra</span>.</h1>
             <p className="lead lead--xl">
               Lleva un wrap publicitario en tu auto y sigue manejando como siempre. Tú inicias y detienes
@@ -126,9 +126,9 @@ export default function DriverHome() {
       <section className="pilot pilot--driver">
         <Container className="pilot__inner">
           <Reveal className="pilot__copy">
-            <span className="sticker sticker--lime">Piloto cerrado 2026</span>
+            <span className="sticker sticker--lime">Ciudad de Guatemala</span>
             <h2 className="h2 h2--on">Estamos sumando conductores en Ciudad de Guatemala.</h2>
-            <p className="lead lead--on">El piloto tiene un número limitado de vehículos y campañas. Crea tu cuenta y te avisamos cuando haya una que encaje con tu auto.</p>
+            <p className="lead lead--on">Crea tu cuenta y te avisamos cuando haya una campaña que encaje con tu auto.</p>
             <Button to="/conductores/registro" variant="pop" icon="arrow" size="lg">Crear cuenta de conductor</Button>
           </Reveal>
           <Reveal className="pilot__art" delay={150}><WrapCar coverage="full" design="estiky" /></Reveal>

@@ -1,17 +1,19 @@
+import { BudgetParts, QuoteSliders } from '../../components/illus'
 import Reveal from '../../components/Reveal'
 import { Button, Card, Check, CtaBand, Faq, PageHero, Section } from '../../components/ui'
 import { useSeo } from '../../lib/seo'
 
 export default function Inversion() {
-  useSeo('Inversión y presupuesto de campaña', 'Qué incluye el presupuesto de una campaña Estiky, qué variables definen la cotización y las condiciones del piloto 2026.', '/inversion')
+  useSeo('Inversión y presupuesto de campaña', 'Qué incluye el presupuesto de una campaña Estiky, qué variables definen la cotización y las condiciones actuales.', '/inversion')
   return (
     <>
       <PageHero
         eyebrow="Inversión"
         title={<>Un presupuesto <span className="hl">a la medida</span> de tu campaña.</>}
         lead="No hay tarifario único. Cada campaña se cotiza según zonas, duración y formato, y la propuesta te muestra con claridad qué incluye."
-        actions={<Button to="/registro" icon="arrow" size="lg">Crear cuenta de anunciante</Button>}
-      />
+        actions={<Button to="/registro" icon="arrow" size="lg">Crear cuenta de anunciante</Button>}>
+        <BudgetParts />
+      </PageHero>
       <Section eyebrow="Qué incluye" title="Cuatro componentes en un solo presupuesto.">
         <div className="grid4">
           {[
@@ -23,6 +25,7 @@ export default function Inversion() {
         </div>
       </Section>
       <Section tone="tint" eyebrow="Cómo se cotiza" title="Tres variables definen tu propuesta.">
+        <div className="center-gfx center-gfx--sm"><QuoteSliders /></div>
         <div className="steps3">
           {[
             { n: '1', t: 'Zonas', d: 'Cuántas y cuáles zonas quieres cubrir, y con cuántos vehículos.' },
@@ -32,10 +35,10 @@ export default function Inversion() {
         </div>
         <p className="center-note">No publicamos tarifas ni precios por kilómetro: dependen de la combinación de estas tres variables.</p>
       </Section>
-      <Section id="piloto" eyebrow="Piloto 2026" title="Condiciones del piloto cerrado.">
+      <Section id="condiciones" eyebrow="Condiciones" title="Lo que debes saber antes de empezar.">
         <div className="split">
           <Reveal className="panel panel--ok">
-            <h3 className="h3">Lo que ofrece el piloto</h3>
+            <h3 className="h3">Lo que incluye operar con Estiky</h3>
             <ul className="checks">
               <Check>Instalación del wrap sin costo para anunciantes seleccionados.</Check>
               <Check>Operación asistida: el equipo gestiona aprobaciones, instalación y retiro.</Check>
@@ -45,7 +48,7 @@ export default function Inversion() {
           <Reveal className="panel" delay={120}>
             <h3 className="h3">Lo que debes saber</h3>
             <ul className="checks">
-              <Check>Número limitado de campañas y vehículos.</Check>
+              <Check>La disponibilidad de vehículos se confirma por campaña.</Check>
               <Check>Operación en Ciudad de Guatemala.</Check>
               <Check>La cobertura por zona depende de los vehículos disponibles.</Check>
             </ul>
@@ -54,9 +57,9 @@ export default function Inversion() {
       </Section>
       <Section tone="tint" eyebrow="Preguntas sobre inversión" title="Antes de pedir tu propuesta.">
         <div className="narrow"><Faq items={[
-          { q: '¿Hay un mínimo para empezar?', a: <p>Las condiciones del piloto se confirman en la propuesta, según el tipo de campaña y la disponibilidad de vehículos.</p> },
+          { q: '¿Hay un mínimo para empezar?', a: <p>Las condiciones se confirman en la propuesta, según el tipo de campaña y la disponibilidad de vehículos.</p> },
           { q: '¿El diseño del wrap está incluido?', a: <p>El presupuesto contempla diseño y producción del wrap. En la propuesta se detalla el alcance.</p> },
-          { q: '¿Se cobra el retiro del wrap?', a: <p>Instalación y retiro forman parte de los componentes del presupuesto; en el piloto, la instalación no tiene costo para anunciantes seleccionados.</p> },
+          { q: '¿Se cobra el retiro del wrap?', a: <p>Instalación y retiro forman parte de los componentes del presupuesto; para anunciantes seleccionados, la instalación no tiene costo.</p> },
           { q: '¿En qué moneda se cotiza?', a: <p>En quetzales (Q).</p> },
         ]} /></div>
       </Section>

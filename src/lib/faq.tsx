@@ -10,7 +10,7 @@ export const ADV_FAQ: QA[] = [
   {
     cat: 'Campañas',
     q: '¿Puedo elegir las zonas donde circula mi campaña?',
-    a: <p>Sí. Defines las zonas objetivo en el brief y la propuesta se arma alrededor de ellas. Durante el piloto 2026 la cobertura depende de los vehículos disponibles en cada zona; te lo confirmamos antes de producir nada.</p>,
+    a: <p>Sí. Defines las zonas objetivo en el brief y la propuesta se arma alrededor de ellas. La cobertura depende de los vehículos disponibles en cada zona; te lo confirmamos antes de producir nada.</p>,
   },
   {
     cat: 'Campañas',
@@ -54,8 +54,8 @@ export const ADV_FAQ: QA[] = [
   },
   {
     cat: 'Operación',
-    q: '¿Qué es el piloto cerrado 2026?',
-    a: <p>Es la etapa actual de Estiky: operamos en Ciudad de Guatemala con un número limitado de campañas y vehículos. Para anunciantes seleccionados, la instalación no tiene costo.</p>,
+    q: '¿Dónde opera Estiky?',
+    a: <p>Operamos en Ciudad de Guatemala. La disponibilidad de vehículos por zona se confirma en cada campaña y, para anunciantes seleccionados, la instalación no tiene costo.</p>,
   },
 ]
 

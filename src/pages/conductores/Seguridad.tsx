@@ -1,5 +1,5 @@
 import Reveal from '../../components/Reveal'
-import Icon from '../../components/Icon'
+import { DriverTrip } from '../../components/phones'
 import { Button, Card, Check, CtaBand, PageHero, Section } from '../../components/ui'
 import { useSeo } from '../../lib/seo'
 
@@ -8,7 +8,7 @@ export default function Seguridad() {
   return (
     <>
       <PageHero eyebrow="Seguridad y privacidad" title={<>Tú tienes el <span className="hl">control</span> del GPS.</>} lead="El GPS solo se usa durante los viajes que tú inicias en la app. Aquí está qué datos recogemos y para qué." actions={<Button to="/conductores/registro" icon="arrow" size="lg">Crear cuenta</Button>}>
-        <div className="gps-art" aria-hidden="true"><Icon name="lock" size={120} /></div>
+        <DriverTrip />
       </PageHero>
       <Section eyebrow="Qué recogemos" title="Datos de tu cuenta y de tus viajes.">
         <div className="grid3">

@@ -25,7 +25,7 @@ export const ARGS: { icon: IconName; title: string; body: string; biz: string; q
   {
     icon: 'shield',
     title: 'Riesgo controlado: empiezas acotado',
-    body: 'El piloto es una campaña concreta, con cupo y duración definidos. Ves resultados y decides si amplías.',
+    body: 'Empiezas con una campaña concreta, con zonas y duración definidas. Ves resultados y decides si amplías.',
     biz: 'Pruebas exterior sin comprometer un contrato anual ni un presupuesto grande de arranque.',
     quote: 'Empiezas con una campaña, no con un año.',
   },

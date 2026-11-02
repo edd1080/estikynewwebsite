@@ -242,7 +242,7 @@ export function DashboardMock({ initial = 'resumen' as View }: { initial?: View 
           {NAV.map(([k, l, ic]) => (
             <button key={k} type="button" className={view === k ? 'is-on' : ''} onClick={() => setView(k)} aria-pressed={view === k}><Icon name={ic} size={16} /> <span>{l}</span></button>
           ))}
-          <div className="dash__side-foot"><span className="live-dot" /> Piloto 2026</div>
+          <div className="dash__side-foot"><span className="live-dot" /> Ciudad de Guatemala</div>
         </aside>
         <div className="dash__content">
           <div className="dash__top">

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import type { ReactNode } from 'react'
 import Icon, { type IconName } from './Icon'
 import Reveal from './Reveal'
+import WrapCar, { type Design } from './WrapCar'
 
 export function Container({ children, className = '' }: { children: ReactNode; className?: string }) {
   return <div className={`container ${className}`}>{children}</div>
@@ -109,23 +110,24 @@ export function Stamp({ children }: { children: ReactNode }) {
 }
 
 export function CtaBand({
-  title, text, primary, secondary, tone = 'brand',
+  title, text, primary, secondary, tone = 'brand', car,
 }: {
-  title: ReactNode; text: ReactNode; tone?: 'brand' | 'ink'
+  title: ReactNode; text: ReactNode; tone?: 'brand' | 'ink'; car?: Design
   primary: { label: string; to: string }; secondary?: { label: string; to: string }
 }) {
   return (
     <section className={`ctaband ctaband--${tone}`}>
       <Container>
         <Reveal className="ctaband__inner">
-          <div>
+          <div className="ctaband__copy">
             <h2 className="h2 h2--on">{title}</h2>
             <p className="lead lead--on">{text}</p>
+            <div className="btn-row">
+              <Button to={primary.to} variant="pop" icon="arrow" size="lg">{primary.label}</Button>
+              {secondary && <Button to={secondary.to} variant="ghost-on" size="lg">{secondary.label}</Button>}
+            </div>
           </div>
-          <div className="btn-row">
-            <Button to={primary.to} variant="pop" icon="arrow" size="lg">{primary.label}</Button>
-            {secondary && <Button to={secondary.to} variant="ghost-on" size="lg">{secondary.label}</Button>}
-          </div>
+          <div className="ctaband__art"><WrapCar design={car ?? (tone === 'ink' ? 'estiky' : 'fruta')} /></div>
         </Reveal>
       </Container>
     </section>

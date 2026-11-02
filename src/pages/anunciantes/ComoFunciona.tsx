@@ -1,3 +1,5 @@
+import { WeeksTimeline } from '../../components/illus'
+import { CampaignList } from '../../components/panel'
 import RoadTimeline from '../../components/RoadTimeline'
 import Reveal from '../../components/Reveal'
 import Icon from '../../components/Icon'
@@ -60,9 +62,12 @@ export default function ComoFunciona() {
           <Reveal delay={100}><Card icon="clock" title="Necesitas pausarla"><p>Avisas a tu contacto en Estiky. El equipo coordina la pausa con los conductores y te confirma cómo quedan tus métricas.</p></Card></Reveal>
           <Reveal delay={200}><Card icon="shield" title="Un vehículo sale de la campaña"><p>Si un conductor deja de cumplir los criterios, el equipo lo retira y, cuando es posible, lo reemplaza para mantener la cobertura.</p></Card></Reveal>
         </div>
+        <div className="center-gfx"><CampaignList /></div>
       </Section>
 
-      <Section eyebrow="Tiempos" title="Semanas, no meses." lead="Los tiempos aproximados dependen de la aprobación del arte, la producción y la disponibilidad de instalación. Los encuentras en tu propuesta." />
+      <Section eyebrow="Tiempos" title="Semanas, no meses." lead="Los tiempos aproximados dependen de la aprobación del arte, la producción y la disponibilidad de instalación. Los encuentras en tu propuesta.">
+        <WeeksTimeline />
+      </Section>
 
       <CtaBand
         title="Empecemos por tu brief."

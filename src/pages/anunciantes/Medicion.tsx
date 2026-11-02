@@ -1,5 +1,6 @@
 import Reveal from '../../components/Reveal'
-import { LiveMap, TripsCard } from '../../components/panel'
+import { LiveMap, TripsCard, ImpressionsChart } from '../../components/panel'
+import { ImpressionsDiagram } from '../../components/illus'
 import Icon from '../../components/Icon'
 import { Button, Card, Check, CtaBand, PageHero, Section } from '../../components/ui'
 import { useSeo } from '../../lib/seo'
@@ -25,6 +26,7 @@ export default function Medicion() {
       </PageHero>
 
       <Section eyebrow="Definiciones" title="Tres conceptos que verás en tu panel.">
+        <ImpressionsDiagram />
         <div className="grid3">
           <Reveal><Card icon="gps" title="Kilómetro verificado"><p>Distancia recorrida por un vehículo de tu campaña durante un viaje iniciado por el conductor y registrado por GPS.</p></Card></Reveal>
           <Reveal delay={100}><Card icon="pin" title="Zona cubierta"><p>Zona objetivo por la que circularon los vehículos de tu campaña hasta hoy.</p></Card></Reveal>
@@ -96,6 +98,7 @@ export default function Medicion() {
           <Check>Cambiar de formato en la siguiente etapa.</Check>
           <Check>Decidir si renuevas, pausas o cierras la campaña.</Check>
         </ul>
+        <div className="center-gfx"><ImpressionsChart /></div>
       </Section>
 
       <CtaBand title="Mide lo que importa, sin letra chica." text="Solicita una propuesta y revisa con el equipo cómo se vería el panel de tu campaña." primary={{ label: 'Crear cuenta de anunciante', to: '/registro' }} secondary={{ label: 'Hablar con ventas', to: '/demo' }} />

@@ -8,6 +8,8 @@ import { Button, Check, Container, CtaBand, Faq, Section } from '../../component
 import { DashboardMock } from '../../components/panel'
 
 import { ARGS } from '../../lib/platform'
+import { Billboard, RouteMini, CaseArt, TrustStack } from '../../components/illus'
+import { LiveMap, TripsCard } from '../../components/panel'
 import { ADV_FAQ } from '../../lib/faq'
 import { useSeo } from '../../lib/seo'
 
@@ -27,7 +29,7 @@ export default function Home() {
         <div className="hero__bg" aria-hidden="true" />
         <Container className="hero__inner">
           <div className="hero__copy">
-            <span className="sticker sticker--tilt"><span className="live-dot" aria-hidden="true" /> Piloto 2026 · Ciudad de Guatemala</span>
+            <span className="sticker sticker--tilt"><span className="live-dot" aria-hidden="true" /> Ciudad de Guatemala</span>
             <h1 className="h1">
               Tu marca, <span className="hl">circulando</span> por toda la ciudad.
             </h1>
@@ -74,6 +76,7 @@ export default function Home() {
               <li>Compromisos largos para ocupar el espacio.</li>
               <li>Poca visibilidad de qué pasó realmente en la campaña.</li>
             </ul>
+            <Billboard />
           </Reveal>
           <div className="vs__arrow" aria-hidden="true"><Icon name="arrow" size={28} /></div>
           <Reveal className="vs__card vs__card--new" delay={120}>
@@ -84,7 +87,8 @@ export default function Home() {
               <li>Activas por campaña, sin atarte a un contrato anual.</li>
               <li>Kilómetros verificados por GPS, en tiempo real.</li>
             </ul>
-            <WrapCar className="vs__car" coverage="full" color="#5B3DF5" accent="#C8F31D" text="TU MARCA" />
+            <RouteMini />
+            <WrapCar className="vs__car" design="estiky" />
           </Reveal>
         </div>
       </Section>
@@ -152,7 +156,7 @@ export default function Home() {
         <div className="formats">
           {[
             { cov: 'full' as const, name: 'Full wrap', tag: 'Máxima visibilidad', text: 'El vehículo completo con tu marca. Pensado para lanzamientos y campañas que necesitan impacto inmediato.', color: '#5B3DF5', accent: '#C8F31D' },
-            { cov: 'plus' as const, name: 'Panel+', tag: 'Cobertura amplia', text: 'Cobertura ampliada de la carrocería. Equilibra visibilidad y presupuesto para campañas sostenidas.', color: '#FF5C7A', accent: '#FFFFFF' },
+            { cov: 'plus' as const, name: 'Panel+', tag: 'Wrap parcial', text: 'Parte trasera y puertas con producto, mensaje y logo. Equilibra visibilidad y presupuesto.', color: '#FF5C7A', accent: '#FFFFFF' },
             { cov: 'panel' as const, name: 'Panel', tag: 'Presencia constante', text: 'Un panel con tu mensaje. Ideal para recordación de marca y refuerzo local.', color: '#15122B', accent: '#C8F31D' },
           ].map((f, i) => (
             <Reveal key={f.name} className="format" delay={i * 100}>
@@ -195,6 +199,10 @@ export default function Home() {
             </ul>
             <p className="panel__note">Tener claro el límite hace que cada dato de tu panel sea confiable.</p>
           </Reveal>
+        </div>
+        <div className="gfxrow">
+          <Reveal><div className="dcard"><div className="dcard__h"><b>Mapa en vivo</b><span className="dtag">Datos ilustrativos</span></div><LiveMap /></div></Reveal>
+          <Reveal delay={100}><TripsCard compact /></Reveal>
         </div>
         <div className="center-cta">
           <Button to="/medicion" variant="ghost" icon="arrow">Cómo medimos</Button>
@@ -253,13 +261,13 @@ export default function Home() {
       >
         <div className="cases">
           {[
-            { icon: 'rocket', t: 'Lanzamiento', d: 'Presenta un producto o marca nueva con presencia visible desde el primer día.' },
-            { icon: 'store', t: 'Apertura de sucursal', d: 'Lleva a la gente al nuevo punto: tu marca circula por las zonas cercanas.' },
-            { icon: 'tag', t: 'Temporada o promoción', d: 'Activa justo cuando lo necesitas y retira al terminar. Sin atarte por un año.' },
-            { icon: 'target', t: 'Refuerzo local', d: 'Si ya inviertes en otros medios, suma presencia en las zonas que más te importan.' },
+            { k: 'launch', icon: 'rocket', t: 'Lanzamiento', d: 'Presenta un producto o marca nueva con presencia visible desde el primer día.' },
+            { k: 'store', icon: 'store', t: 'Apertura de sucursal', d: 'Lleva a la gente al nuevo punto: tu marca circula por las zonas cercanas.' },
+            { k: 'season', icon: 'tag', t: 'Temporada o promoción', d: 'Activa justo cuando lo necesitas y retira al terminar. Sin atarte por un año.' },
+            { k: 'local', icon: 'target', t: 'Refuerzo local', d: 'Si ya inviertes en otros medios, suma presencia en las zonas que más te importan.' },
           ].map((c, i) => (
             <Reveal key={c.t} delay={i * 80} className="case">
-              <span className="case__icon"><Icon name={c.icon as 'rocket'} size={26} /></span>
+              <CaseArt kind={c.k as 'launch'} />
               <h3 className="h3">{c.t}</h3>
               <p>{c.d}</p>
             </Reveal>
@@ -277,6 +285,7 @@ export default function Home() {
         title="Tu marca viaja en manos verificadas."
         lead="Operamos de forma asistida: el equipo de Estiky gestiona aprobaciones, instalación y retiro."
       >
+        <div className="trust-wrap">
         <div className="trust">
           {[
             { icon: 'id', t: 'Conductores verificados', d: 'Cada conductor pasa por un proceso de verificación de identidad y documentos antes de circular.' },
@@ -290,22 +299,24 @@ export default function Home() {
             </Reveal>
           ))}
         </div>
+        <Reveal delay={120}><TrustStack /></Reveal>
+        </div>
       </Section>
 
-      {/* ───────── PILOTO ───────── */}
+      {/* ───────── CIUDAD ───────── */}
       <section className="pilot">
         <Container className="pilot__inner">
           <Reveal className="pilot__copy">
-            <span className="sticker sticker--lime">Piloto cerrado 2026</span>
-            <h2 className="h2 h2--on">Estamos abriendo las primeras campañas.</h2>
+            <span className="sticker sticker--lime">Ciudad de Guatemala</span>
+            <h2 className="h2 h2--on">Tu marca puede estar en la calle este mes.</h2>
             <p className="lead lead--on">
-              Operamos en Ciudad de Guatemala con un número limitado de campañas y vehículos. Para
-              anunciantes seleccionados, la instalación del wrap no tiene costo. Ya tenemos viajes con GPS
+              Operamos en Ciudad de Guatemala con conductores verificados y medición GPS en cada viaje.
+              Crea tu cuenta, arma tu campaña y mírala circular desde tu panel. Ya tenemos viajes con GPS
               registrados en nuestra campaña de prueba, <b>Testin 1</b>.
             </p>
             <div className="btn-row">
               <Button to="/registro" variant="pop" icon="arrow" size="lg">Crear cuenta</Button>
-              <Button to="/inversion" variant="ghost-on" size="lg">Condiciones del piloto</Button>
+              <Button to="/inversion" variant="ghost-on" size="lg">Ver inversión</Button>
             </div>
           </Reveal>
           <Reveal className="pilot__art" delay={150}>

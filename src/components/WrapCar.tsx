@@ -1,12 +1,13 @@
 import { useId } from 'react'
 
 export type Coverage = 'full' | 'plus' | 'panel' | 'none'
-export type Design = 'estiky' | 'cafe' | 'fit' | 'fruta'
+/** Campañas de ejemplo con marcas ficticias. */
+export type Design = 'estiky' | 'cafe' | 'fit' | 'fruta' | 'blank'
 
 interface Props {
   coverage?: Coverage
   design?: Design
-  /** Compatibilidad: si no hay `design`, se deduce del color. */
+  /** Compatibilidad con llamadas anteriores: si no hay `design`, se deduce. */
   color?: string
   accent?: string
   text?: string
@@ -15,156 +16,239 @@ interface Props {
   label?: string
 }
 
-const BODY = 'M12 112 L12 54 Q12 42 24 42 L192 42 Q203 42 210 50 L244 80 L292 88 Q306 91 306 104 L306 112 Z'
-const GLASS = 'M208 53 Q211 53 214 56 L240 79 L208 79 Z'
+/* ───────── Geometría del sedán (vista lateral, frente a la derecha) ───────── */
+const BODY =
+  'M34 178 L30 146 Q29 128 46 122 L122 112 C152 108 168 100 186 88 L238 54 Q252 44 272 43 L368 42 Q392 43 410 54 L464 100 L540 110 Q570 115 578 133 L582 158 Q583 176 568 178 L510 178 A40 40 0 0 0 430 178 L180 178 A40 40 0 0 0 100 178 Z'
+const GLASS_REAR = 'M202 96 L244 60 Q256 53 272 53 L316 52 L316 98 Z'
+const GLASS_FRONT = 'M326 52 L366 52 Q386 53 400 62 L444 100 L326 99 Z'
+const FONT_D = 'Bricolage Grotesque Variable, Arial Black, sans-serif'
+const FONT_B = 'Inter Variable, Arial, sans-serif'
 
-const BRAND: Record<Design, { name: string; tag: string; primary: string; accent: string; ink: string }> = {
-  estiky: { name: 'estiky', tag: 'Tu campaña en tiempo real', primary: '#5B3DF5', accent: '#C8F31D', ink: '#FFFFFF' },
-  cafe: { name: 'Café Aurora', tag: 'Despierta tu ciudad', primary: '#F4E3C3', accent: '#E4572E', ink: '#6B3A1E' },
-  fit: { name: 'FITZONE', tag: 'Primer mes gratis', primary: '#15122B', accent: '#C8F31D', ink: '#FFFFFF' },
-  fruta: { name: 'Frutiko', tag: '100% fruta', primary: '#FF8A3D', accent: '#FFFFFF', ink: '#FFFFFF' },
+const BASE: Record<Design, string> = {
+  estiky: '#5B3DF5',
+  cafe: '#F4F3F7',
+  fit: '#F4F3F7',
+  fruta: '#E9EDF3',
+  blank: '#F4F3F7',
 }
 
-function designFor(color?: string): Design {
+function designFor(coverage: Coverage, color?: string): Design {
   switch ((color ?? '').toUpperCase()) {
+    case '#5B3DF5': return 'estiky'
     case '#FF5C7A': return 'fruta'
-    case '#15122B': return 'fit'
-    case '#C8F31D': case '#FFC93C': return 'cafe'
-    default: return 'estiky'
+    case '#15122B': return 'cafe'
+    case '#C8F31D': case '#FFC93C': return 'fit'
   }
+  if (coverage === 'plus') return 'fruta'
+  if (coverage === 'panel') return 'cafe'
+  if (coverage === 'none') return 'blank'
+  return 'estiky'
 }
 
-function Phone({ x, y, rot = -7 }: { x: number; y: number; rot?: number }) {
+/* ───────── Piezas gráficas ───────── */
+function AppPhone({ x, y, rot }: { x: number; y: number; rot: number }) {
   return (
     <g transform={`translate(${x} ${y}) rotate(${rot})`}>
-      <rect width="50" height="86" rx="9" fill="#15122B" />
-      <rect x="3" y="3" width="44" height="80" rx="7" fill="#fff" />
-      <rect x="18" y="5" width="14" height="3" rx="1.5" fill="#15122B" />
-      <rect x="7" y="12" width="20" height="5" rx="2" fill="#5B3DF5" />
-      <rect x="7" y="21" width="36" height="22" rx="4" fill="#EBE6FF" />
-      <path d="M10 38 L17 30 L23 34 L31 25 L40 28" fill="none" stroke="#5B3DF5" strokeWidth="1.6" strokeLinecap="round" />
-      <circle cx="31" cy="25" r="2" fill="#C8F31D" stroke="#15122B" strokeWidth=".8" />
-      <rect x="7" y="47" width="17" height="12" rx="3" fill="#F3F1FA" />
-      <rect x="26" y="47" width="17" height="12" rx="3" fill="#F3F1FA" />
-      <rect x="9" y="50" width="9" height="2.5" rx="1" fill="#15122B" opacity=".6" />
-      <rect x="28" y="50" width="9" height="2.5" rx="1" fill="#15122B" opacity=".6" />
-      <rect x="9" y="54" width="6" height="3" rx="1" fill="#5B3DF5" />
-      <rect x="28" y="54" width="6" height="3" rx="1" fill="#5B3DF5" />
-      <rect x="7" y="63" width="36" height="5" rx="2" fill="#F3F1FA" />
-      <rect x="7" y="70" width="36" height="9" rx="4.5" fill="#C8F31D" />
+      <rect x="-2" y="2" width="62" height="108" rx="12" fill="#000" opacity=".25" />
+      <rect width="60" height="106" rx="11" fill="#15122B" />
+      <rect x="4" y="4" width="52" height="98" rx="8" fill="#fff" />
+      <rect x="22" y="6" width="16" height="4" rx="2" fill="#15122B" />
+      <text x="9" y="22" fontFamily={FONT_D} fontWeight="800" fontSize="8" fill="#15122B">estiky</text>
+      <circle cx="49" cy="19" r="3" fill="#1fd47f" />
+      <rect x="8" y="27" width="44" height="30" rx="5" fill="#EBE6FF" />
+      <path d="M11 51 L19 42 L26 46 L35 35 L49 38" fill="none" stroke="#5B3DF5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="35" cy="35" r="2.6" fill="#C8F31D" stroke="#15122B" strokeWidth="1" />
+      <rect x="8" y="61" width="21" height="15" rx="4" fill="#F3F1FA" />
+      <rect x="31" y="61" width="21" height="15" rx="4" fill="#F3F1FA" />
+      <text x="11" y="68" fontFamily={FONT_B} fontSize="4.2" fill="#6b6785">Km</text>
+      <text x="11" y="74" fontFamily={FONT_D} fontWeight="800" fontSize="6.5" fill="#15122B">4,862</text>
+      <text x="34" y="68" fontFamily={FONT_B} fontSize="4.2" fill="#6b6785">Impr.</text>
+      <text x="34" y="74" fontFamily={FONT_D} fontWeight="800" fontSize="6.5" fill="#15122B">128k</text>
+      <rect x="8" y="80" width="44" height="6" rx="3" fill="#F3F1FA" />
+      <rect x="8" y="89" width="44" height="9" rx="4.5" fill="#C8F31D" />
+      <text x="30" y="95.5" textAnchor="middle" fontFamily={FONT_B} fontWeight="800" fontSize="4.6" fill="#15122B">VER EN VIVO</text>
     </g>
   )
 }
 
-function Qr({ x, y }: { x: number; y: number }) {
-  const cells = [1,1,1,0,1,1,1, 1,0,1,1,1,0,1, 1,1,0,1,0,1,1, 0,1,1,0,1,1,0, 1,0,1,1,0,1,1, 1,0,0,1,1,0,1, 1,1,1,0,1,1,1]
+function Cloud({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
+  return (
+    <g transform={`translate(${x} ${y}) scale(${s})`} fill="#fff">
+      <ellipse cx="0" cy="0" rx="26" ry="11" opacity=".95" />
+      <ellipse cx="-16" cy="2" rx="14" ry="8" opacity=".95" />
+      <ellipse cx="18" cy="3" rx="16" ry="8" opacity=".95" />
+      <ellipse cx="4" cy="-8" rx="13" ry="9" opacity=".95" />
+    </g>
+  )
+}
+
+function JuiceCan({ x, y }: { x: number; y: number }) {
   return (
     <g transform={`translate(${x} ${y})`}>
-      <rect width="30" height="30" rx="4" fill="#fff" />
-      {cells.map((c, i) => c ? <rect key={i} x={2 + (i % 7) * 3.7} y={2 + Math.floor(i / 7) * 3.7} width="3.2" height="3.2" fill="#15122B" /> : null)}
+      <rect x="2" y="3" width="40" height="72" rx="7" fill="#000" opacity=".18" />
+      <rect width="40" height="72" rx="7" fill="#fff" />
+      <rect y="0" width="40" height="8" rx="4" fill="#d9dde6" />
+      <circle cx="20" cy="30" r="15" fill="#FF8A3D" />
+      <text x="20" y="28" textAnchor="middle" fontFamily={FONT_D} fontWeight="800" fontSize="6.5" fill="#fff">FRUTI</text>
+      <text x="20" y="35" textAnchor="middle" fontFamily={FONT_D} fontWeight="800" fontSize="6.5" fill="#fff">KO</text>
+      <text x="20" y="54" textAnchor="middle" fontFamily={FONT_D} fontWeight="800" fontSize="5.5" fill="#2E6BD6">MANGO</text>
+      <circle cx="20" cy="63" r="5" fill="#FFB020" />
+      <path d="M20 58 q3 -4 6 -2" fill="none" stroke="#2E9E5B" strokeWidth="1.6" />
     </g>
   )
 }
 
-function FullArt({ d }: { d: Design }) {
+function Art({ d }: { d: Design }) {
   if (d === 'estiky') {
+    // Full wrap estilo campaña de telecom: color sólido, titular enorme, app como "personaje".
     return (
       <g>
-        <rect width="320" height="140" fill="url(#gv)" />
-        <circle cx="168" cy="118" r="62" fill="#C8F31D" opacity=".18" />
-        <polygon points="12,112 54,112 92,42 50,42" fill="#C8F31D" opacity=".95" />
-        <text x="24" y="70" fontFamily="Bricolage Grotesque Variable, Arial Black, sans-serif" fontWeight="800" fontSize="32" fill="#fff" letterSpacing="-1.2">estiky</text>
-        <text x="25" y="83" fontFamily="Inter Variable, Arial, sans-serif" fontWeight="700" fontSize="8" fill="#C8F31D">en tiempo real</text>
-        <Phone x={118} y={46} />
-        <Qr x={168} y={66} />
-        <rect x="160" y="100" width="44" height="9" rx="4.5" fill="#fff" />
-        <text x="182" y="107" textAnchor="middle" fontFamily="Inter Variable, Arial, sans-serif" fontWeight="800" fontSize="6.4" fill="#15122B">DESCARGA LA APP</text>
+        <rect width="620" height="230" fill="url(#est-g)" />
+        <path d="M0 184 C160 160 300 188 620 128 L620 230 L0 230Z" fill="#C8F31D" />
+        <path d="M0 168 C170 144 320 176 620 112" fill="none" stroke="#fff" strokeWidth="3" opacity=".35" />
+        {[[260, 76, 18, '#C8F31D'], [300, 88, -24, '#FF5C7A'], [430, 112, 30, '#fff'], [120, 128, -12, '#FF5C7A'], [486, 128, 40, '#C8F31D']].map(([x, y, r, c], i) => (
+          <rect key={i} x={x as number} y={y as number} width="10" height="4" rx="2" fill={c as string} transform={`rotate(${r} ${x} ${y})`} />
+        ))}
+        <text x="62" y="146" fontFamily={FONT_D} fontWeight="800" fontSize="22" fill="#fff" letterSpacing="-1">estiky</text>
+        <text x="214" y="132" fontFamily={FONT_D} fontWeight="800" fontSize="26" fill="#fff" letterSpacing="-1.1">Tu campaña,</text>
+        <text x="214" y="158" fontFamily={FONT_D} fontWeight="800" fontSize="26" fill="#C8F31D" letterSpacing="-1.1" stroke="#15122B" strokeWidth=".6" paintOrder="stroke">en tiempo real</text>
+        <text x="215" y="170" fontFamily={FONT_B} fontWeight="600" fontSize="5.4" fill="#15122B" opacity=".8">Descarga la app y mira tu marca circular · estiky.com</text>
       </g>
     )
   }
   if (d === 'cafe') {
+    // Panel en puertas sobre auto blanco (como las campañas de software).
     return (
       <g>
-        <rect width="320" height="140" fill="#F4E3C3" />
-        <circle cx="160" cy="100" r="48" fill="#E4572E" /><circle cx="160" cy="100" r="33" fill="#F28C28" /><circle cx="160" cy="100" r="17" fill="#FFC93C" />
-        <path d="M150 54 q-6 -8 0 -14 t0 -14 M166 56 q-6 -8 0 -14 t0 -14" fill="none" stroke="#6B3A1E" strokeWidth="2.4" strokeLinecap="round" opacity=".55" />
-        <text x="26" y="62" fontFamily="Bricolage Grotesque Variable, Arial Black, sans-serif" fontWeight="800" fontSize="20" fill="#6B3A1E">Café</text>
-        <text x="26" y="84" fontFamily="Bricolage Grotesque Variable, Arial Black, sans-serif" fontWeight="800" fontSize="26" fill="#E4572E" letterSpacing="-1">Aurora</text>
-        <text x="104" y="60" fontFamily="Inter Variable, Arial, sans-serif" fontWeight="700" fontSize="7" fill="#6B3A1E">DESPIERTA TU CIUDAD</text>
+        <path d="M206 106 Q206 102 212 102 L438 103 Q444 103 443 110 L437 166 Q436 173 429 173 L218 173 Q210 173 209 166 Z" fill="url(#cafe-g)" />
+        {[[232, 112], [420, 116], [252, 160], [402, 158], [338, 110]].map(([x, y], i) => (
+          <g key={i} transform={`translate(${x} ${y}) rotate(${i * 37})`}><ellipse rx="5" ry="3.4" fill="#A0522D" /><path d="M-4 0 Q0 -1.4 4 0" stroke="#3B1F12" strokeWidth=".9" fill="none" /></g>
+        ))}
+        <text x="224" y="137" fontFamily={FONT_D} fontWeight="800" fontSize="22" fill="#fff" letterSpacing="-.8">Despierta</text>
+        <text x="224" y="161" fontFamily={FONT_D} fontWeight="800" fontSize="22" fill="#FFC93C" letterSpacing="-.8">tu ciudad.</text>
+        <g transform="translate(372 114)">
+          <path d="M6 10 q-4 -6 0 -10 M16 10 q-4 -6 0 -10 M26 10 q-4 -6 0 -10" stroke="#fff" strokeWidth="2" fill="none" opacity=".8" strokeLinecap="round" />
+          <path d="M0 14 H34 L30 46 Q29 50 25 50 H9 Q5 50 4 46 Z" fill="#fff" />
+          <path d="M34 20 q12 2 8 12 q-3 6 -10 5" fill="none" stroke="#fff" strokeWidth="3" />
+          <rect x="4" y="24" width="26" height="9" fill="#E4572E" />
+          <text x="17" y="31" textAnchor="middle" fontFamily={FONT_D} fontWeight="800" fontSize="6" fill="#fff">AURORA</text>
+        </g>
+        <g transform="translate(66 118)">
+          <circle cx="8" cy="8" r="8" fill="#E4572E" /><circle cx="8" cy="8" r="4.5" fill="#FFC93C" />
+          <text x="20" y="12" fontFamily={FONT_D} fontWeight="800" fontSize="13" fill="#6B3A1E" letterSpacing="-.4">Café Aurora</text>
+        </g>
       </g>
     )
   }
   if (d === 'fit') {
+    // Calcomanía sobre auto blanco: logotipo, oferta y line-art.
+    const navy = '#1E2A5A'
     return (
       <g>
-        <rect width="320" height="140" fill="#15122B" />
-        <polygon points="14,112 46,112 96,42 64,42" fill="#C8F31D" /><polygon points="56,112 72,112 122,42 106,42" fill="#FF5C7A" />
-        <text x="30" y="80" fontFamily="Bricolage Grotesque Variable, Arial Black, sans-serif" fontWeight="800" fontStyle="italic" fontSize="30" fill="#fff" letterSpacing="-.5" transform="skewX(-8)">FITZONE</text>
-        <circle cx="178" cy="68" r="23" fill="#C8F31D" /><text x="178" y="66" textAnchor="middle" fontFamily="Inter Variable, Arial, sans-serif" fontWeight="800" fontSize="8" fill="#15122B">1er mes</text><text x="178" y="77" textAnchor="middle" fontFamily="Bricolage Grotesque Variable, Arial Black, sans-serif" fontWeight="800" fontSize="11" fill="#15122B">GRATIS</text>
-        <rect x="100" y="94" width="60" height="9" rx="4.5" fill="#fff" /><text x="130" y="101" textAnchor="middle" fontFamily="Inter Variable, Arial, sans-serif" fontWeight="800" fontSize="6.2" fill="#15122B">ENTRENA HOY</text>
+        <text x="214" y="140" fontFamily={FONT_D} fontWeight="700" fontSize="31" fill={navy} letterSpacing="-1.2">fitzone.gt</text>
+        <text x="216" y="157" fontFamily={FONT_B} fontWeight="800" fontSize="11" fill={navy} letterSpacing=".4">PRIMER MES GRATIS</text>
+        <text x="216" y="166" fontFamily={FONT_B} fontWeight="500" fontSize="4.6" fill={navy}>Aplican restricciones. Detalles en fitzone.gt</text>
+        <g transform="translate(0 6)" fill="none" stroke={navy} strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="408" cy="104" r="7" />
+          <path d="M406 112 L398 134 L414 146 L420 164 M398 134 L384 150 L372 152 M402 118 L386 126 L378 120 M404 120 L420 128 L430 120" />
+          <path d="M350 162 H372 L378 152 L386 170 L392 158 H440" strokeWidth="2.6" />
+        </g>
       </g>
     )
   }
-  return (
-    <g>
-      <rect width="320" height="140" fill="#FF8A3D" />
-      <g transform="translate(160 96)">
-        <circle r="40" fill="#fff" /><circle r="34" fill="#FFD27A" />
-        {Array.from({ length: 8 }, (_, i) => <line key={i} x1="0" y1="0" x2={Math.cos((i * Math.PI) / 4) * 34} y2={Math.sin((i * Math.PI) / 4) * 34} stroke="#fff" strokeWidth="2.4" />)}
+  if (d === 'fruta') {
+    // Wrap parcial: cielo desde la parte trasera hasta media puerta delantera.
+    return (
+      <g>
+        <path d="M0 0 H404 Q392 40 386 120 L380 230 H0Z" fill="url(#sky-g)" />
+        <Cloud x={130} y={124} s={1.1} /><Cloud x={360} y={110} s={.7} /><Cloud x={170} y={166} s={.6} /><Cloud x={382} y={170} s={.8} />
+        <g transform="translate(78 140)"><circle r="17" fill="#FFB020" stroke="#fff" strokeWidth="2.4" /><text y="-1" textAnchor="middle" fontFamily={FONT_D} fontWeight="800" fontSize="7.4" fill="#2E6BD6">FRUTI</text><text y="7" textAnchor="middle" fontFamily={FONT_D} fontWeight="800" fontSize="7.4" fill="#2E6BD6">KO</text></g>
+        <JuiceCan x={214} y={98} />
+        <text x="268" y="134" fontFamily={FONT_D} fontWeight="800" fontSize="27" fill="#fff" letterSpacing="-1" stroke="#E86A10" strokeWidth="2.2" paintOrder="stroke">SOL EN</text>
+        <text x="268" y="159" fontFamily={FONT_D} fontWeight="800" fontSize="27" fill="#fff" letterSpacing="-1" stroke="#E86A10" strokeWidth="2.2" paintOrder="stroke">LATA</text>
+        <text x="269" y="170" fontFamily={FONT_B} fontWeight="800" fontSize="6.4" fill="#fff" letterSpacing="1.2">FRUTIKO · JUGO 100% FRUTA</text>
       </g>
-      <path d="M186 52 q14 -16 28 0 q-14 14 -28 0z" fill="#2E9E5B" />
-      <text x="24" y="76" fontFamily="Bricolage Grotesque Variable, Arial Black, sans-serif" fontWeight="800" fontSize="29" fill="#fff" letterSpacing="-1">Frutiko</text>
-      <text x="25" y="86" fontFamily="Inter Variable, Arial, sans-serif" fontWeight="800" fontSize="7.5" fill="#2E5A2B">100% FRUTA</text>
-    </g>
-  )
+    )
+  }
+  return null
 }
 
 export default function WrapCar({ coverage = 'full', design, color, spin = true, label, className = '' }: Props) {
-  const id = useId().replace(/:/g, '')
-  const d = design ?? designFor(color)
-  const b = BRAND[d]
+  const raw = useId().replace(/[^a-zA-Z0-9]/g, '')
+  const id = (s: string) => `${s}${raw}`
+  const d = design ?? designFor(coverage, color)
+  const base = BASE[d]
   return (
-    <svg className={`wrapcar ${className}`} viewBox="0 0 320 140" role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : true}>
+    <svg className={`wrapcar ${className}`} viewBox="0 0 620 230" role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : true}>
       <defs>
-        <clipPath id={`c${id}`}><path d={BODY} /></clipPath>
-        <linearGradient id="gv" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#6A4DFF" /><stop offset="1" stopColor="#3A1FC4" /></linearGradient>
+        <clipPath id={id('c')}><path d={BODY} /></clipPath>
+        <linearGradient id="est-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#6E52FF" /><stop offset="1" stopColor="#3B1FC8" /></linearGradient>
+        <linearGradient id="cafe-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#5A2E17" /><stop offset="1" stopColor="#2E170C" /></linearGradient>
+        <linearGradient id="sky-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#1E78F0" /><stop offset="1" stopColor="#4FA6FF" /></linearGradient>
+        <linearGradient id={id('sh')} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#fff" stopOpacity=".55" />
+          <stop offset=".32" stopColor="#fff" stopOpacity=".05" />
+          <stop offset=".62" stopColor="#000" stopOpacity="0" />
+          <stop offset="1" stopColor="#000" stopOpacity=".22" />
+        </linearGradient>
+        <linearGradient id={id('gl')} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#3A4670" /><stop offset=".45" stopColor="#1C2340" /><stop offset="1" stopColor="#2A3358" />
+        </linearGradient>
+        <radialGradient id={id('rim')} cx=".4" cy=".35" r=".8"><stop offset="0" stopColor="#F2F2F6" /><stop offset=".7" stopColor="#B7B8C4" /><stop offset="1" stopColor="#8D8E9C" /></radialGradient>
       </defs>
-      <ellipse cx="160" cy="132" rx="146" ry="7" fill="#15122B" opacity=".13" />
-      <path d={BODY} fill="#EEEBF7" />
-      <g clipPath={`url(#c${id})`}>
-        {coverage === 'full' && <FullArt d={d} />}
-        {coverage === 'plus' && (
-          <g>
-            <rect x="0" y="72" width="320" height="48" fill={b.primary} />
-            <rect x="0" y="72" width="320" height="4" fill={b.accent} />
-            <text x="104" y="98" fontFamily="Bricolage Grotesque Variable, Arial Black, sans-serif" fontWeight="800" fontSize="22" fill={b.ink} letterSpacing="-.6">{b.name}</text>
-            <text x="105" y="109" fontFamily="Inter Variable, Arial, sans-serif" fontWeight="700" fontSize="8" fill={b.ink} opacity=".9">{b.tag}</text>
-          </g>
-        )}
-        {coverage === 'panel' && (
-          <g>
-            <rect x="98" y="52" width="104" height="52" rx="9" fill={b.primary} stroke={b.accent} strokeWidth="2.5" />
-            <text x="150" y="80" textAnchor="middle" fontFamily="Bricolage Grotesque Variable, Arial Black, sans-serif" fontWeight="800" fontSize="17" fill={b.ink} letterSpacing="-.5">{b.name}</text>
-            <text x="150" y="94" textAnchor="middle" fontFamily="Inter Variable, Arial, sans-serif" fontWeight="700" fontSize="8" fill={b.ink} opacity=".9">{b.tag}</text>
-          </g>
-        )}
-        <path d="M112 44 L112 112 M208 50 L208 112" stroke="#15122B" strokeOpacity=".16" strokeWidth="1.4" />
-        <rect x="118" y="76" width="9" height="3" rx="1.5" fill="#15122B" opacity=".3" />
+
+      <ellipse cx="306" cy="214" rx="290" ry="10" fill="#15122B" opacity=".16" />
+
+      {/* carrocería */}
+      <path d={BODY} fill={base} />
+      <g clipPath={`url(#${id('c')})`}>
+        <Art d={d} />
+        <rect width="620" height="230" fill={`url(#${id('sh')})`} />
+        <path d="M44 128 C200 116 380 112 574 128" fill="none" stroke="#fff" strokeOpacity=".55" strokeWidth="1.6" />
+        <path d="M36 164 L580 162 L580 180 L36 180Z" fill="#15122B" opacity=".12" />
+        <g fill="none" stroke="#15122B" strokeOpacity=".22" strokeWidth="1.3">
+          <path d="M204 97 L206 168 Q207 176 214 178" />
+          <path d="M321 50 L321 176" />
+          <path d="M446 101 L438 142 Q436 156 444 172" />
+          <path d="M464 100 L540 110" strokeOpacity=".14" />
+        </g>
+        <rect x="282" y="116" width="22" height="5" rx="2.5" fill="#15122B" opacity=".35" />
+        <rect x="398" y="116" width="22" height="5" rx="2.5" fill="#15122B" opacity=".35" />
       </g>
-      <path d={BODY} fill="none" stroke="#15122B" strokeOpacity=".2" strokeWidth="1.5" />
-      <path d={GLASS} fill="#26305F" />
-      <path d="M214 58 L232 74 L214 74Z" fill="#fff" opacity=".14" />
-      <rect x="243" y="77" width="11" height="6" rx="2" fill="#15122B" opacity=".7" />
-      <rect x="296" y="94" width="9" height="6" rx="2" fill="#FFF3B0" />
-      <rect x="12" y="86" width="6" height="9" rx="2" fill="#FF4D4D" />
-      {[66, 246].map((cx) => (
+
+      {/* vidrios */}
+      <path d={GLASS_REAR} fill={`url(#${id('gl')})`} />
+      <path d={GLASS_FRONT} fill={`url(#${id('gl')})`} />
+      <path d="M262 55 L300 55 L250 97 L218 97Z" fill="#fff" opacity=".1" />
+      <path d="M352 53 L380 54 L340 99 L322 99Z" fill="#fff" opacity=".1" />
+      <rect x="316" y="51" width="10" height="49" fill="#15122B" />
+      <path d="M186 88 L202 96 L244 60" fill="none" stroke="#15122B" strokeOpacity=".3" strokeWidth="1.2" />
+
+      {d === 'estiky' && <g transform="translate(396 70) scale(.92)"><AppPhone x={0} y={0} rot={9} /></g>}
+
+      {/* espejo, luces */}
+      <path d="M440 94 Q444 84 456 86 L460 96 Q452 101 442 99Z" fill={d === 'estiky' ? '#4A2FE0' : '#E2E1EA'} stroke="#15122B" strokeOpacity=".25" />
+      <path d="M546 115 Q566 117 574 129 L560 130 Q548 126 540 118Z" fill="#FFF6D0" stroke="#15122B" strokeOpacity=".3" />
+      <path d="M32 130 Q36 124 52 122 L54 136 Q42 138 32 138Z" fill="#E0213A" />
+      <path d="M570 156 L582 156" stroke="#15122B" strokeOpacity=".3" strokeWidth="3" strokeLinecap="round" />
+
+      {/* contorno */}
+      <path d={BODY} fill="none" stroke="#15122B" strokeOpacity=".22" strokeWidth="1.4" />
+
+      {/* ruedas */}
+      {[140, 470].map((cx) => (
         <g key={cx}>
-          <circle cx={cx} cy="112" r="25" fill="#15122B" opacity=".28" />
-          <circle cx={cx} cy="112" r="20" fill="#15122B" />
+          <circle cx={cx} cy="178" r="38" fill="#121218" />
+          <circle cx={cx} cy="178" r="35" fill="#22222B" />
+          <circle cx={cx} cy="178" r="33" fill="#2E2E38" />
+          <circle cx={cx} cy="178" r="25" fill={`url(#${id('rim')})`} />
           <g className={spin ? 'wheel-spin' : undefined}>
-            <circle cx={cx} cy="112" r="10" fill="#D8D4EA" />
-            <path d={`M${cx} 103 L${cx} 121 M${cx - 9} 112 L${cx + 9} 112 M${cx - 6.4} 105.6 L${cx + 6.4} 118.4 M${cx + 6.4} 105.6 L${cx - 6.4} 118.4`} stroke="#8F89B0" strokeWidth="2" />
+            {Array.from({ length: 5 }, (_, i) => (
+              <path key={i} d={`M${cx} 178 L${cx - 4} ${155} L${cx + 4} ${155} Z`} fill="#5D5E6C" transform={`rotate(${i * 72} ${cx} 178)`} />
+            ))}
+            <circle cx={cx} cy="178" r="7" fill="#D9DAE2" stroke="#5D5E6C" strokeWidth="1.5" />
           </g>
+          <circle cx={cx} cy="178" r="25" fill="none" stroke="#fff" strokeOpacity=".5" strokeWidth="1" />
         </g>
       ))}
     </svg>

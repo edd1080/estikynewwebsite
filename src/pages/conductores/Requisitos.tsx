@@ -1,3 +1,4 @@
+import { DriverDocs } from '../../components/phones'
 import Reveal from '../../components/Reveal'
 import { Button, Card, Check, CtaBand, PageHero, Section } from '../../components/ui'
 import RoadTimeline from '../../components/RoadTimeline'
@@ -7,7 +8,9 @@ export default function Requisitos() {
   useSeo('Requisitos y verificación para conductores', 'Documentos, fotos y criterios de elegibilidad del vehículo para ser conductor de Estiky, y qué pasa si tu solicitud se rechaza.', '/conductores/requisitos')
   return (
     <>
-      <PageHero eyebrow="Requisitos y verificación" title={<>Todo lo que necesitas para <span className="hl">arrancar</span>.</>} lead="Documentos, fotos y condiciones del vehículo. Si algo no pasa la revisión, te decimos qué corregir." actions={<Button to="/conductores/registro" icon="arrow" size="lg">Crear cuenta</Button>} />
+      <PageHero eyebrow="Requisitos y verificación" title={<>Todo lo que necesitas para <span className="hl">arrancar</span>.</>} lead="Documentos, fotos y condiciones del vehículo. Si algo no pasa la revisión, te decimos qué corregir." actions={<Button to="/conductores/registro" icon="arrow" size="lg">Crear cuenta</Button>}>
+        <DriverDocs />
+      </PageHero>
       <Section eyebrow="Documentos" title="Tres documentos vigentes.">
         <div className="grid3">
           <Reveal><Card icon="id" title="Licencia de conducir"><p>Vigente y legible. Debe estar a tu nombre.</p></Card></Reveal>

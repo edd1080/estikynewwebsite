@@ -19,7 +19,7 @@ Deploy en Vercel (`vercel.json` ya reescribe a `index.html`).
 ## PENDIENTE — confirmar con producto (texto redactado de forma genérica)
 1. Qué cubre exactamente cada formato (Full wrap / Panel+ / Panel) y qué vehículos admite.
 2. Metodología real de impresiones estimadas (hoy descrita en general).
-3. Tiempos aproximados por etapa del piloto (hoy "se indican en la propuesta").
+3. Tiempos aproximados por etapa (hoy "se indican en la propuesta").
 4. Políticas de rechazo/pausa de campaña y reemplazo de vehículos.
 5. Confirmar que el conductor no paga la instalación ni el retiro.
 6. Fotos exactas requeridas al conductor y criterios de elegibilidad del vehículo (año, tipo).

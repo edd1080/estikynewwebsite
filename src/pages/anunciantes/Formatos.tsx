@@ -1,3 +1,4 @@
+import { ImpressionsDiagram } from '../../components/illus'
 import WrapCar from '../../components/WrapCar'
 import Reveal from '../../components/Reveal'
 import Icon from '../../components/Icon'
@@ -17,7 +18,7 @@ const FORMATS = [
   {
     id: 'panel-plus', cov: 'plus' as const, name: 'Panel+', tag: 'Cobertura amplia',
     color: '#FF5C7A', accent: '#FFFFFF',
-    cubre: 'Cobertura ampliada de la parte baja de la carrocería, con espacio para mensaje y logo.',
+    cubre: 'Wrap parcial: parte trasera y puertas, con espacio para producto, mensaje y logo.',
     vehiculo: 'Vehículos elegibles según el área a cubrir.',
     ideal: 'Campañas sostenidas, promociones de temporada y refuerzo de marca con buen equilibrio de presupuesto.',
     visibilidad: 'Media-alta',
@@ -94,6 +95,7 @@ export default function Formatos() {
         title="Cómo estimamos las impresiones."
         lead="Una impresión estimada es una oportunidad de que tu marca sea vista, calculada a partir de la circulación verificada."
       >
+        <ImpressionsDiagram />
         <div className="steps3">
           {[
             { n: '1', t: 'Circulación verificada', d: 'El GPS registra los kilómetros que recorre cada vehículo durante sus viajes.' },

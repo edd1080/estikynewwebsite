@@ -1,3 +1,4 @@
+import { AdvPhone } from '../../components/phones'
 import { Link } from 'react-router-dom'
 import Reveal from '../../components/Reveal'
 import Icon from '../../components/Icon'
@@ -14,7 +15,9 @@ export default function Contacto() {
   ]
   return (
     <>
-      <PageHero eyebrow="Contacto" title={<>Hablemos de tu <span className="hl">próxima campaña</span>.</>} lead="Elige el canal según lo que necesites." actions={<Button to="/registro" icon="arrow" size="lg">Crear cuenta de anunciante</Button>} />
+      <PageHero eyebrow="Contacto" title={<>Hablemos de tu <span className="hl">próxima campaña</span>.</>} lead="Elige el canal según lo que necesites." actions={<Button to="/registro" icon="arrow" size="lg">Crear cuenta de anunciante</Button>}>
+        <AdvPhone />
+      </PageHero>
       <Section>
         <div className="grid3">
           {areas.map((a, i) => (

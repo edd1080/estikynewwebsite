@@ -12,7 +12,7 @@ const ROWS = [
   ['Cómo se mide', 'Estimación de tránsito', 'GPS por viaje'],
   ['Qué puedes ajustar', 'Poco, y con fricción', 'Con datos en la mano, junto a Estiky'],
   ['Carga para tu equipo', 'Coordinar proveedores y permisos', 'Operación gestionada por Estiky'],
-  ['Compromiso inicial', 'Largo', 'Una campaña piloto'],
+  ['Compromiso inicial', 'Largo', 'Una campaña, sin contrato anual'],
 ]
 
 const TOUR = [

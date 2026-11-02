@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import Icon from './Icon'
 import RoadStrip from './RoadStrip'
@@ -21,20 +21,62 @@ function Logo() {
   )
 }
 
-const ADV_LINKS = [
+type L = { to: string; label: string; desc?: string }
+const ADV_MAIN: L[] = [
   { to: '/plataforma', label: 'Plataforma' },
   { to: '/formatos', label: 'Formatos' },
   { to: '/como-funciona', label: 'Cómo funciona' },
-  { to: '/medicion', label: 'Medición' },
-  { to: '/inversion', label: 'Inversión' },
-  { to: '/casos-de-uso', label: 'Casos de uso' },
 ]
-const DRV_LINKS = [
+const ADV_MORE: L[] = [
+  { to: '/medicion', label: 'Medición', desc: 'Km verificados, zonas e impresiones' },
+  { to: '/inversion', label: 'Inversión', desc: 'Qué incluye y cómo se cotiza' },
+  { to: '/casos-de-uso', label: 'Casos de uso', desc: 'Lanzamientos, sucursales, temporadas' },
+  { to: '/comparativa', label: 'Comparativa', desc: 'Estiky frente a la valla fija' },
+  { to: '/nosotros', label: 'Nosotros', desc: 'Por qué existe Estiky' },
+  { to: '/ayuda', label: 'Ayuda', desc: 'Preguntas frecuentes' },
+  { to: '/contacto', label: 'Contacto', desc: 'Ventas, soporte y legal' },
+]
+const DRV_MAIN: L[] = [
   { to: '/conductores/requisitos', label: 'Requisitos' },
   { to: '/conductores/pagos', label: 'Pagos' },
-  { to: '/conductores/seguridad', label: 'Seguridad y privacidad' },
-  { to: '/conductores/ayuda', label: 'Ayuda' },
 ]
+const DRV_MORE: L[] = [
+  { to: '/conductores/seguridad', label: 'Seguridad y privacidad', desc: 'Tú controlas el GPS' },
+  { to: '/conductores/ayuda', label: 'Ayuda', desc: 'Preguntas frecuentes' },
+  { to: '/contacto', label: 'Contacto', desc: 'Escríbenos' },
+]
+
+function MoreMenu({ items }: { items: L[] }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  const { pathname } = useLocation()
+  useEffect(() => setOpen(false), [pathname])
+  useEffect(() => {
+    if (!open) return
+    const onDoc = (e: MouseEvent) => { if (!ref.current?.contains(e.target as Node)) setOpen(false) }
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false) }
+    document.addEventListener('mousedown', onDoc)
+    document.addEventListener('keydown', onKey)
+    return () => { document.removeEventListener('mousedown', onDoc); document.removeEventListener('keydown', onKey) }
+  }, [open])
+  const active = items.some((i) => i.to === pathname)
+  return (
+    <div className="more" ref={ref}>
+      <button type="button" className={`more__btn ${active ? 'is-active' : ''}`} aria-expanded={open} aria-haspopup="true" onClick={() => setOpen(!open)}>
+        Más <Icon name="plus" size={14} />
+      </button>
+      {open && (
+        <div className="more__panel">
+          {items.map((i) => (
+            <Link key={i.to} to={i.to} className={i.to === pathname ? 'is-active' : ''}>
+              <b>{i.label}</b>{i.desc && <small>{i.desc}</small>}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
 
 export default function Layout() {
   const { pathname } = useLocation()
@@ -53,7 +95,8 @@ export default function Layout() {
     }
   }, [pathname])
 
-  const links = driver ? DRV_LINKS : ADV_LINKS
+  const links = driver ? DRV_MAIN : ADV_MAIN
+  const more = driver ? DRV_MORE : ADV_MORE
   const cta = driver
     ? { to: '/conductores/registro', label: 'Crear cuenta' }
     : { to: '/registro', label: 'Crear cuenta' }
@@ -71,6 +114,7 @@ export default function Layout() {
             {links.map((l) => (
               <NavLink key={l.to} to={l.to} className={({ isActive }) => (isActive ? 'is-active' : '')}>{l.label}</NavLink>
             ))}
+            <MoreMenu items={more} />
           </nav>
           <div className="nav__right">
             <div className="switch" role="group" aria-label="Elige tu perfil">
@@ -90,7 +134,7 @@ export default function Layout() {
               <Link to="/" className={!driver ? 'is-on' : ''}>Anunciantes</Link>
               <Link to="/conductores" className={driver ? 'is-on' : ''}>Conductores</Link>
             </div>
-            {links.map((l) => <Link key={l.to} to={l.to}>{l.label}</Link>)}
+            {[...links, ...more].map((l) => <Link key={l.to} to={l.to}>{l.label}</Link>)}
             <Link to={login}>Ingresar</Link>
             <Link to={cta.to} className="btn btn--primary btn--lg"><span>{cta.label}</span></Link>
           </div>
@@ -111,7 +155,7 @@ function Footer({ driver }: { driver: boolean }) {
           <div className="footer__brand">
             <Logo />
             <p>Publicidad exterior on-demand en autos reales, medida con GPS.</p>
-            <p className="footer__pilot"><span className="live-dot" aria-hidden="true" /> Piloto cerrado 2026 · Ciudad de Guatemala</p>
+            <p className="footer__pilot"><span className="live-dot" aria-hidden="true" /> Disponible en Ciudad de Guatemala</p>
           </div>
           <div>
             <h4>Anunciantes</h4>

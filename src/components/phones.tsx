@@ -60,3 +60,20 @@ export function AdvPhone() {
     </Phone>
   )
 }
+export function DriverPay() {
+  return (
+    <Phone tilt={-3}>
+      <Bar title="Pagos" />
+      <div className="ph-card ph-card--ok"><Icon name="check" size={16} /> Cuenta bancaria verificada</div>
+      <div className="ph-cal">
+        <small>Cadencia</small>
+        <b>Quincenal</b>
+        <div className="ph-cal__grid">{Array.from({ length: 28 }, (_, i) => <i key={i} className={i === 14 || i === 27 ? 'on' : ''} />)}</div>
+      </div>
+      <ul className="ph-list">
+        <li><span className="ph-dot ok" /><div><b>Método</b><small>Transferencia bancaria</small></div></li>
+        <li><span className="ph-dot wait" /><div><b>Detalle de tu cuenta</b><small>Disponible en la app verificada</small></div></li>
+      </ul>
+    </Phone>
+  )
+}
